@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -86,9 +87,22 @@ import java.util.concurrent.TimeUnit;
  *
  */
 
-@TeleOp(name="Omni Drive To AprilTag", group = "Concept")
-public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
+@TeleOp(name="test cam", group = "Concept")
+public class coreyPracticeCam extends LinearOpMode
 {
+
+    double power = 1;
+    double intakePower = 0;
+    double wristPower = 0.1667;
+
+
+    // Declare OpMode members for each of the 4 motors.
+    private ElapsedTime runtime = new ElapsedTime();
+
+    MechanumClass drive = new MechanumClass();
+    IMUClass imu = new IMUClass();
+
+
     // Adjust these numbers to suit your robot.
     final double DESIRED_DISTANCE = 12.0; //  this is how close the camera should get to the target (inches)
 
@@ -114,12 +128,84 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
+    private static final int Max_Position = -2700;
+
     @Override public void runOpMode()
     {
+
+        drive.init(hardwareMap, false);
+        imu.initIMU(hardwareMap);
+
+        runtime.reset();
+
+
         boolean targetFound     = false;    // Set to true when an AprilTag target is detected
-        double  drive           = 0;        // Desired forward power/speed (-1 to +1)
-        double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
-        double  turn            = 0;        // Desired turning power/speed (-1 to +1)
+        double  vertical           = 0;        // Desired forward power/speed (-1 to +1)
+        double  horizontal          = 0;        // Desired strafe power/speed (-1 to +1)
+        double  pivot            = 0;        // Desired turning power/speed (-1 to +1)
+        double pivotPower = gamepad2.right_stick_y * 0.3;
+        double slidePower = gamepad2.left_stick_y ;
+
+
+
+        int currentPosition = drive.posistion();
+
+
+        if (gamepad1.left_bumper) {
+            intakePower = -1.0;
+        } else if (gamepad1.right_bumper) {
+            intakePower = 0.5;
+        } else if (gamepad1.y) {
+            intakePower = 0.0;
+        }
+        if (gamepad2.left_trigger > 0) {
+            wristPower = 0.6;
+        } else if (gamepad2.right_trigger > 0){
+            wristPower = 0.1667;
+        }
+
+
+        if (gamepad2.dpad_down) {
+            pivotPower = gamepad2.right_stick_y * 0.3;
+        }
+        else if (gamepad2.dpad_up) {
+            pivotPower = gamepad2.right_stick_y * 0.5;
+        }
+        else if (gamepad2.dpad_left){
+            pivotPower = 0.3;
+        }
+        if (gamepad1.dpad_up){
+            power = 1;
+        }
+        else if (gamepad1.dpad_down){
+            power = 0.5;
+        }
+
+
+        if (currentPosition > Max_Position){
+            if (gamepad2.right_stick_y != 0){
+                if (gamepad2.dpad_down) {
+                    pivotPower = gamepad2.right_stick_y * 0.3;
+                }
+                else if (gamepad2.dpad_up){
+                    pivotPower = gamepad2.right_stick_y * 0.5;
+                }
+                else if (gamepad2.dpad_left){
+                    pivotPower = 0.3;
+                }
+            }
+            else {
+                pivotPower = 0;
+            }
+        }
+        else {
+            pivotPower = 0;
+            telemetry.addLine("Max position reached!");
+            telemetry.update();
+        }
+
+
+        drive.teleOP(power, pivot, vertical, horizontal, pivotPower, slidePower,intakePower,wristPower,currentPosition);
 
         // Initialize the Apriltag Detection process
         initAprilTag();
@@ -195,23 +281,24 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 double  yawError        = desiredTag.ftcPose.yaw;
 
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
-                drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
-                strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+                vertical  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                pivot   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
+                horizontal = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
-                telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+                telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", pivot, vertical, horizontal);
             } else {
 
                 // drive using manual POV Joystick mode.  Slow things down to make the robot more controlable.
-                drive  = -gamepad1.left_stick_y  / 2.0;  // Reduce drive rate to 50%.
-                strafe = -gamepad1.left_stick_x  / 2.0;  // Reduce strafe rate to 50%.
-                turn   = -gamepad1.right_stick_x / 3.0;  // Reduce turn rate to 33%.
-                telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+                vertical  = -gamepad1.left_stick_y  / 2.0;  // Reduce drive rate to 50%.
+                horizontal = -gamepad1.left_stick_x  / 2.0;  // Reduce strafe rate to 50%.
+                pivot   = -gamepad1.right_stick_x / 3.0;  // Reduce turn rate to 33%.
+                telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", pivot, vertical, horizontal);
             }
             telemetry.update();
 
+
             // Apply desired axes motions to the drivetrain.
-            moveRobot(drive, strafe, turn);
+            moveRobot(vertical, horizontal, pivot);
             sleep(10);
         }
     }
