@@ -33,9 +33,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Billy boyb" , group="Linear OpMode")
+@TeleOp(name="Billy" , group="Linear OpMode")
 
-public class coreyPracticeTeleOp3 extends LinearOpMode {
+public class coreyPracticeTeleOp4 extends LinearOpMode {
 
     double power = 1;
     double intakePower = 0;
@@ -76,7 +76,7 @@ public class coreyPracticeTeleOp3 extends LinearOpMode {
             double horizontal = gamepad1.left_stick_x;
             double vertical = -gamepad1.left_stick_y;
             double pivot = -gamepad1.right_stick_x;
-            double pivotPower = gamepad2.right_stick_y * 0.1;
+            double pivotPower = gamepad2.right_stick_y * 0.15;
             double slidePower = gamepad2.left_stick_y ;
             double linearPower = gamepad2.right_stick_x * 0.5;
 

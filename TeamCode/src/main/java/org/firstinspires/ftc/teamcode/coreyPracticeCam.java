@@ -94,6 +94,8 @@ public class coreyPracticeCam extends LinearOpMode
     double power = 1;
     double intakePower = 0;
     double wristPower = 0.1667;
+    double clawPosition = 1;
+
 
 
     // Declare OpMode members for each of the 4 motors.
@@ -129,6 +131,8 @@ public class coreyPracticeCam extends LinearOpMode
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
     private static final int Max_Position = -2800;
+    private static final int Max_Slide = -900;
+
 
     @Override public void runOpMode()
     {
@@ -150,61 +154,9 @@ public class coreyPracticeCam extends LinearOpMode
 
 
 
-        int currentPosition = drive.posistion();
 
 
-        if (gamepad1.left_bumper) {
-            intakePower = -1.0;
-        } else if (gamepad1.right_bumper) {
-            intakePower = 0.5;
-        } else if (gamepad1.y) {
-            intakePower = 0.0;
-        }
-        if (gamepad2.left_trigger > 0) {
-            wristPower = 0.6;
-        } else if (gamepad2.right_trigger > 0){
-            wristPower = 0.1667;
-        }
 
-
-        if (gamepad2.dpad_down) {
-            pivotPower = gamepad2.right_stick_y * 0.3;
-        }
-        else if (gamepad2.dpad_up) {
-            pivotPower = gamepad2.right_stick_y * 0.5;
-        }
-        else if (gamepad2.dpad_left){
-            pivotPower = 0.3;
-        }
-        if (gamepad1.dpad_up){
-            power = 1;
-        }
-        else if (gamepad1.dpad_down){
-            power = 0.5;
-        }
-
-
-        if (currentPosition > Max_Position){
-            if (gamepad2.right_stick_y != 0){
-                if (gamepad2.dpad_down) {
-                    pivotPower = gamepad2.right_stick_y * 0.3;
-                }
-                else if (gamepad2.dpad_up){
-                    pivotPower = gamepad2.right_stick_y * 0.5;
-                }
-                else if (gamepad2.dpad_left){
-                    pivotPower = 0.3;
-                }
-            }
-            else {
-                pivotPower = 0;
-            }
-        }
-        else {
-            pivotPower = 0;
-            telemetry.addLine("Max position reached!");
-            telemetry.update();
-        }
 
 
 
@@ -238,6 +190,10 @@ public class coreyPracticeCam extends LinearOpMode
 
         while (opModeIsActive())
         {
+
+            int currentPosition = drive.posistion();
+            double curSlide = drive.slidePos();
+
             targetFound = false;
             desiredTag  = null;
 
@@ -298,8 +254,89 @@ public class coreyPracticeCam extends LinearOpMode
             telemetry.update();
 
 
+
+            if (gamepad1.a) {
+                intakePower = -1.0;
+            } else if (gamepad1.b) {
+                intakePower = 0.5;
+            } else if (gamepad1.y) {
+                intakePower = 0.0;
+            }
+            if (gamepad2.left_trigger > 0) {
+                wristPower = 0.6;
+            } else if (gamepad2.right_trigger > 0){
+                wristPower = 0.1667;
+            }
+
+
+            if (gamepad2.dpad_down) {
+                pivotPower = gamepad2.right_stick_y * 0.3;
+            }
+            else if (gamepad2.dpad_up) {
+                pivotPower = gamepad2.right_stick_y * 0.5;
+            }
+            else if (gamepad2.dpad_left){
+                pivotPower = 0.3;
+            }
+            if (gamepad1.dpad_up){
+                power = 1;
+            }
+            else if (gamepad1.dpad_down){
+                power = 0.5;
+            }
+
+            if (gamepad2.b){
+                clawPosition = 0.5;
+            }
+            else if (gamepad2.y) {
+                clawPosition = 0;
+
+            }
+
+            if (currentPosition > Max_Position){
+                if (gamepad2.right_stick_y != 0){
+                    if (gamepad2.dpad_down) {
+                        pivotPower = gamepad2.right_stick_y * 0.3;
+                    }
+                    else if (gamepad2.dpad_up){
+                        pivotPower = gamepad2.right_stick_y * 0.5;
+                    }
+                    else if (gamepad2.dpad_left){
+                        pivotPower = 0.3;
+                    }
+                }
+                else {
+                    pivotPower = 0;
+                }
+
+            }
+
+            else {
+                pivotPower = 0;
+                telemetry.addLine("Max position reached!");
+                telemetry.update();
+            }
+            if (currentPosition < 0 && currentPosition > -900){
+                if (curSlide < -900){
+                    slidePower = 0;
+                }
+            }
+
+            else if (currentPosition < -2350){
+                wristPower = 0.1667;
+                if (curSlide < 0){
+                    slidePower = 0.25;
+                }
+                else if (curSlide > -100 && gamepad2.left_stick_y > 0){
+                    slidePower = 0;
+                }
+            }
+
+
+
+
             // Apply desired axes motions to the drivetrain.
-            moveRobot(vertical, horizontal, pivot);
+            //moveRobot(vertical, horizontal, pivot);
             sleep(10);
             drive.teleOP(power, pivot, vertical, horizontal, pivotPower, slidePower,intakePower,wristPower,currentPosition,linearPower,clawPostion);
 
