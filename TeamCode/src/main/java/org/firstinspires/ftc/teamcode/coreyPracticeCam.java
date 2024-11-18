@@ -128,7 +128,7 @@ public class coreyPracticeCam extends LinearOpMode
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
-    private static final int Max_Position = -2700;
+    private static final int Max_Position = -2800;
 
     @Override public void runOpMode()
     {
@@ -145,6 +145,8 @@ public class coreyPracticeCam extends LinearOpMode
         double  pivot            = 0;        // Desired turning power/speed (-1 to +1)
         double pivotPower = gamepad2.right_stick_y * 0.3;
         double slidePower = gamepad2.left_stick_y ;
+        double clawPostion = 0;
+        double linearPower = 0;
 
 
 
@@ -205,7 +207,6 @@ public class coreyPracticeCam extends LinearOpMode
         }
 
 
-        drive.teleOP(power, pivot, vertical, horizontal, pivotPower, slidePower,intakePower,wristPower,currentPosition);
 
         // Initialize the Apriltag Detection process
         initAprilTag();
@@ -300,6 +301,8 @@ public class coreyPracticeCam extends LinearOpMode
             // Apply desired axes motions to the drivetrain.
             moveRobot(vertical, horizontal, pivot);
             sleep(10);
+            drive.teleOP(power, pivot, vertical, horizontal, pivotPower, slidePower,intakePower,wristPower,currentPosition,linearPower,clawPostion);
+
         }
     }
 

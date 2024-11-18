@@ -69,6 +69,8 @@ public class coreyP extends LinearOpMode {
             double pivotPower = gamepad2.right_stick_y * 0.3;
             double slidePower = gamepad2.left_stick_y ;
             int currentPosition = 0;
+            double clawPosition =0;
+            double linearPower =0;
 
             if (gamepad1.left_bumper) {
                 intakePower = -1.0;
@@ -99,7 +101,7 @@ public class coreyP extends LinearOpMode {
             else if (gamepad1.dpad_down){
                 power = 0.5;
             }
-            drive.teleOP(power, pivot, vertical, horizontal,pivotPower,slidePower,intakePower,wristPower,currentPosition);
+            drive.teleOP(power, pivot, vertical, horizontal,pivotPower,slidePower,intakePower,wristPower,currentPosition,clawPosition,linearPower);
 
 
             telemetry.addData("Drive Power",power);

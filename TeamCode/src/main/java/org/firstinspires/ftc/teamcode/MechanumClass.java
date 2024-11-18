@@ -17,6 +17,8 @@ public class MechanumClass {
     DcMotor pivotMotor;
     CRServo intake;
     Servo wrist;
+    DcMotor linear;
+    Servo claw;
     /*    Servo pivotServo;
         Servo leftClawServo;
         Servo rightClawServo;
@@ -53,6 +55,8 @@ public class MechanumClass {
         pivotMotor = hwMap.get(DcMotor.class, "liftMotor");
         intake = hwMap.get(CRServo.class, "intake");
         wrist = hwMap.get(Servo.class, "wrist");
+        linear = hwMap.get(DcMotor.class,"linearMotor");
+        claw = hwMap.get(Servo.class,"claw");
 
 
 
@@ -106,10 +110,13 @@ public class MechanumClass {
         //backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
+    public double slidePos(){
+        return slide.getCurrentPosition();
+    }
     public int posistion(){
         return pivotMotor.getCurrentPosition();
     }
-    public void teleOP(double power, double pivot, double vertical, double horizontal, double pivotPower, double slidePower, double intakePower, double wristPower, int currentPosition) {
+    public void teleOP(double power, double pivot, double vertical, double horizontal, double pivotPower, double slidePower, double intakePower, double wristPower, int currentPosition, double linearPower, double clawPosition) {
         //, double arm, boolean open, boolean close, CameraClass aTag, boolean bumperPressed) {
 
       /*  double pivotPosition = pivotServo.getPosition();
@@ -137,6 +144,8 @@ public class MechanumClass {
         pivotMotor.setPower(pivotPower);
         intake.setPower(intakePower);
         wrist.setPosition(wristPower);
+        linear.setPower(linearPower);
+        claw.setPosition(clawPosition);
 
 
         currentPosition = pivotMotor.getCurrentPosition();
