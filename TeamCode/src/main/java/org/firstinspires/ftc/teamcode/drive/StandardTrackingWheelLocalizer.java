@@ -34,8 +34,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double LATERAL_DISTANCE = 10.5; // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = -5.0625; // in; offset of the lateral wheel
 
-    public static double X_Mulitplier = 2.08695652;
-    public static double Y_Multiplier = 2.08695652;
+    public static double X_Mulitplier = 1;
+    public static double Y_Multiplier = 1;
 
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
@@ -52,9 +52,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncPositions = lastTrackingEncPositions;
         lastEncVels = lastTrackingEncVels;
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftEncoder"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightEncoder"));
-        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontEncoder"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftFrontDrive"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFrontDrive"));
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRearDrive"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }
@@ -76,8 +76,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncPositions.add(frontPos);
 
         return Arrays.asList(
-                encoderTicksToInches(leftPos) * X_Mulitplier,
-                encoderTicksToInches(rightPos) * X_Mulitplier,
+                encoderTicksToInches(leftPos) * -X_Mulitplier,
+                encoderTicksToInches(rightPos) * -X_Mulitplier,
                 encoderTicksToInches(frontPos) * Y_Multiplier
         );
     }
