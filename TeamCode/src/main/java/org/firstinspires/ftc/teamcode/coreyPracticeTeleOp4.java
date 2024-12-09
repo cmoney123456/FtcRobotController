@@ -38,8 +38,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class coreyPracticeTeleOp4 extends LinearOpMode {
 
     double power = 1;
-    double intakePower = 0;
-    double wristPower = 0.1667;
+    double intakePower;
+    double wristPower = 0.75;
     double clawPosition = 1;
 
 
@@ -87,7 +87,7 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
             double curSlide = drive.slidePos();
 
 
-            if (gamepad1.left_bumper) {
+            /*if (gamepad1.left_bumper) {
                 intakePower = -1.0;
             } else if (gamepad1.right_bumper) {
                 intakePower = 0.5;
@@ -98,7 +98,7 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 wristPower = 0.6;
             } else if (gamepad2.right_trigger > 0){
                 wristPower = 0.1667;
-            }
+            }*/
 
 
             if (gamepad2.dpad_down) {
@@ -123,6 +123,18 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
             else if (gamepad2.y) {
                 clawPosition = 0;
 
+            }
+            if (gamepad2.left_bumper) {
+                wristPower = 0;
+            }
+            else if (gamepad2.right_bumper) {
+                wristPower = 0.75;
+            }
+            if (gamepad2.a){
+                intakePower = 1;
+            }
+            else if (gamepad2.x){
+                intakePower = 0;
             }
 
             if (currentPosition > Max_Position){
