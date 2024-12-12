@@ -41,6 +41,8 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
     double intakePower;
     double wristPower = 0.75;
     double clawPosition = 1;
+    double pivotPower = 0;//gamepad2.right_stick_y * 0.05;
+
 
 
     // Declare OpMode members for each of the 4 motors.
@@ -49,9 +51,10 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
     MechanumClass drive = new MechanumClass();
     IMUClass imu = new IMUClass();
 
-    private static final int Max_Position = -2800;
+    private static final int Max_Position = -2875;
     private static final int Max_Slide = -900;
 
+    private boolean constantPower =false;
 
     @Override
     public void runOpMode() {
@@ -76,7 +79,6 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
             double horizontal = gamepad1.left_stick_x;
             double vertical = -gamepad1.left_stick_y;
             double pivot = -gamepad1.right_stick_x;
-            double pivotPower = gamepad2.right_stick_y * 0.15;
             double slidePower = gamepad2.left_stick_y ;
             double linearPower = gamepad2.right_stick_x * 0.5;
 
@@ -85,6 +87,7 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
 
             int currentPosition = drive.posistion();
             double curSlide = drive.slidePos();
+            double linearPos = drive.linearPos();
 
 
             /*if (gamepad1.left_bumper) {
@@ -100,22 +103,40 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 wristPower = 0.1667;
             }*/
 
-
-            if (gamepad2.dpad_down) {
-                pivotPower = gamepad2.right_stick_y * 0.3;
+            if (gamepad2.left_trigger > 0.1){
+                constantPower = !constantPower;
+                while (gamepad2.left_trigger > 0.1 && opModeIsActive()){
+                    sleep(500);
+                }
             }
-            else if (gamepad2.dpad_up) {
-                pivotPower = gamepad2.right_stick_y * 0.5;
+            if (constantPower) {
+            if (Math.abs(gamepad2.right_stick_y) > 0.1) {
+                pivotPower = gamepad2.right_stick_y;
             }
-            else if (gamepad2.dpad_left){
+            else {
                 pivotPower = 0.3;
             }
-            if (gamepad1.dpad_up){
+            }
+            else {
+                if (gamepad2.dpad_down){
+                    pivotPower = gamepad2.right_stick_y * 0.3;
+                }
+                else if (gamepad2.dpad_up){
+                    pivotPower = gamepad2.right_stick_y * 0.5;
+                }
+                else {
+                    pivotPower = gamepad2.right_stick_y * 0.05;
+                }
+            }
+
+            if (gamepad1.dpad_down){
+                power = .5;
+            }
+            else {
                 power = 1;
             }
-            else if (gamepad1.dpad_down){
-                power = 0.5;
-            }
+
+
 
             if (gamepad2.b){
                 clawPosition = 0.5;
@@ -135,6 +156,9 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
             }
             else if (gamepad2.x){
                 intakePower = 0;
+            }
+            else if (gamepad2.dpad_right) {
+                wristPower = 0.375;
             }
 
             if (currentPosition > Max_Position){
@@ -174,15 +198,17 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 else if (curSlide > -100 && gamepad2.left_stick_y > 0){
                     slidePower = 0;
                 }
+
             }
 
 
 
 
+            drive.teleOP( power,  pivot,  vertical,  horizontal,  pivotPower,  slidePower,  intakePower,  wristPower, currentPosition, linearPower, clawPosition, linearPos);
 
-            drive.teleOP( power,  pivot,  vertical,  horizontal,  pivotPower,  slidePower,  intakePower,  wristPower, currentPosition, linearPower, clawPosition);
 
-
+            telemetry.addData("linear",linearPower);
+            telemetry.addData("linear Pos",linearPos);
             telemetry.addData("Drive Power",power);
             telemetry.addData("Lift Power",pivotPower);
             telemetry.addData("Slide Power",slidePower);
@@ -191,6 +217,7 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
             telemetry.addData("Target Limit",Max_Position);
             telemetry.addData("Slide Pos",curSlide);
             telemetry.addData("Slide Limit",Max_Slide);
+            telemetry.addData("constant power",constantPower);
             telemetry.update();
 
 

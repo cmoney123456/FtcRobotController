@@ -334,11 +334,11 @@ public class coreyPracticeCam extends LinearOpMode
 
 
 
-
+double linearPos =0;
             // Apply desired axes motions to the drivetrain.
             //moveRobot(vertical, horizontal, pivot);
             sleep(10);
-            drive.teleOP(power, pivot, vertical, horizontal, pivotPower, slidePower,intakePower,wristPower,currentPosition,linearPower,clawPostion);
+            drive.teleOP(power, pivot, vertical, horizontal, pivotPower, slidePower,intakePower,wristPower,currentPosition,linearPower,clawPostion, linearPos);
 
         }
     }

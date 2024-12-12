@@ -101,7 +101,8 @@ public class coreyP extends LinearOpMode {
             else if (gamepad1.dpad_down){
                 power = 0.5;
             }
-            drive.teleOP(power, pivot, vertical, horizontal,pivotPower,slidePower,intakePower,wristPower,currentPosition,clawPosition,linearPower);
+            double linearPos =0;
+            drive.teleOP(power, pivot, vertical, horizontal,pivotPower,slidePower,intakePower,wristPower,currentPosition,clawPosition,linearPower, linearPos);
 
 
             telemetry.addData("Drive Power",power);

@@ -48,8 +48,8 @@ public class MechanumClass {
     public void init(HardwareMap hwMap, boolean autoMode) {
         frontLeft = hwMap.get(DcMotor.class, "leftFrontDrive");
         frontRight = hwMap.get(DcMotor.class, "rightFrontDrive");
-        backLeft = hwMap.get(DcMotor.class, "leftBackDrive");
-        backRight = hwMap.get(DcMotor.class, "rightBackDrive");
+        backLeft = hwMap.get(DcMotor.class, "leftRearDrive");
+        backRight = hwMap.get(DcMotor.class, "rightRearDrive");
 
         slide = hwMap.get(DcMotor.class, "armMotor");
         pivotMotor = hwMap.get(DcMotor.class, "liftMotor");
@@ -116,7 +116,8 @@ public class MechanumClass {
     public int posistion(){
         return pivotMotor.getCurrentPosition();
     }
-    public void teleOP(double power, double pivot, double vertical, double horizontal, double pivotPower, double slidePower, double intakePower, double wristPower, int currentPosition, double linearPower, double clawPosition) {
+    public double linearPos(){return linear.getCurrentPosition();}
+    public void teleOP(double power, double pivot, double vertical, double horizontal, double pivotPower, double slidePower, double intakePower, double wristPower, int currentPosition, double linearPower, double clawPosition, double linearPos) {
         //, double arm, boolean open, boolean close, CameraClass aTag, boolean bumperPressed) {
 
       /*  double pivotPosition = pivotServo.getPosition();
@@ -146,6 +147,8 @@ public class MechanumClass {
         wrist.setPosition(wristPower);
         linear.setPower(linearPower);
         claw.setPosition(clawPosition);
+
+
 
 
         currentPosition = pivotMotor.getCurrentPosition();
@@ -328,5 +331,13 @@ public class MechanumClass {
         backRight.setDirection(DcMotor.Direction.REVERSE);
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.FORWARD);
+    }
+
+
+    public void telEOP(double linearPower, double linearPos) {
+        linearPos = linear.getCurrentPosition();
+        linear.setPower(linearPower);
+
+
     }
 }
