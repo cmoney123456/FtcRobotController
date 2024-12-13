@@ -110,12 +110,10 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 }
             }
             if (constantPower) {
-            if (Math.abs(gamepad2.right_stick_y) > 0.1) {
-                pivotPower = gamepad2.right_stick_y;
-            }
-            else {
-                pivotPower = 0.3;
-            }
+
+                    pivotPower = 0.3;
+                    sleep(15000);
+
             }
             else {
                 if (gamepad2.dpad_down){
