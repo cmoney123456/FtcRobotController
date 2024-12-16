@@ -334,7 +334,7 @@ public class coreyPracticeCam extends LinearOpMode
 
 
 
-double linearPos =0;
+            double linearPos =0;
             // Apply desired axes motions to the drivetrain.
             //moveRobot(vertical, horizontal, pivot);
             sleep(10);

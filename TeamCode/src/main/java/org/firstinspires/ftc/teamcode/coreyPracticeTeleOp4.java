@@ -90,6 +90,7 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
             double linearPos = drive.linearPos();
 
 
+
             /*if (gamepad1.left_bumper) {
                 intakePower = -1.0;
             } else if (gamepad1.right_bumper) {
@@ -156,7 +157,7 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 intakePower = 0;
             }
             else if (gamepad2.dpad_right) {
-                wristPower = 0.375;
+                wristPower = 0.25;
             }
 
             if (currentPosition > Max_Position){
@@ -182,14 +183,15 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 telemetry.addLine("Max position reached!");
                 telemetry.update();
             }
-            if (currentPosition < 0 && currentPosition > -900){
-                if (curSlide < -900){
+            /*if (currentPosition < 0 && currentPosition > -900){
+                if (curSlide < -1000 && gamepad2.left_stick_y > 0){
                     slidePower = 0;
                 }
             }
 
+
             else if (currentPosition < -2350){
-                wristPower = 0.1667;
+                wristPower = 0.75;
                 if (curSlide < 0){
                     slidePower = 0.25;
                 }
@@ -198,7 +200,7 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 }
 
             }
-
+            */
 
 
 
