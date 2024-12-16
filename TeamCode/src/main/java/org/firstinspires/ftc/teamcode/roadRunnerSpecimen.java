@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -16,9 +17,11 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class roadRunnerSpecimen extends LinearOpMode {
 
     DcMotor linear;
+    Servo claw;
 
     public void init(HardwareMap hwMap, boolean autoMode){
         linear = hwMap.get(DcMotor.class,"linearMotor");
+        claw = hwMap.get(Servo.class,"claw");
     }
 
     //double wristPower = 0.75;
@@ -45,7 +48,7 @@ public class roadRunnerSpecimen extends LinearOpMode {
                         .splineTo(new Vector2d(0,-38),Math.toRadians(0))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(8)
+                        .strafeLeft(7)
                                 .build();
 
 
@@ -58,7 +61,7 @@ public class roadRunnerSpecimen extends LinearOpMode {
         drive.followTrajectory(traj1);
         moveArmUp(-2000);
         drive.followTrajectory(traj2);
-        moveArmDown(-1750);
+        moveArmDown(-1400);
 
 
 
@@ -68,26 +71,29 @@ public class roadRunnerSpecimen extends LinearOpMode {
         linear.setTargetPosition(tarPos);
         linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linear.setPower(-0.5);
+        claw.setPosition(0);
 
-        while (opModeIsActive()){
+
+        while (opModeIsActive() && linear.isBusy()){
             telemetry.addData("Slide Position",linear.getCurrentPosition());
             telemetry.update();
         }
 
         linear.setPower(0);
-
 
     }
     private void moveArmDown(int tarPos){
         linear.setTargetPosition(tarPos);
         linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linear.setPower(0.5);
+        claw.setPosition(0);
 
-        while(opModeIsActive()){
+        while(opModeIsActive() && linear.isBusy()){
             telemetry.addData("Slide Position",linear.getCurrentPosition());
             telemetry.update();
         }
         linear.setPower(0);
+        claw.setPosition(0.5);
     }
 
 
