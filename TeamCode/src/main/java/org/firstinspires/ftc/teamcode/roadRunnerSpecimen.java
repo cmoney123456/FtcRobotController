@@ -37,7 +37,7 @@ public class roadRunnerSpecimen extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(-36,-64,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(24,-64,Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -50,9 +50,31 @@ public class roadRunnerSpecimen extends LinearOpMode {
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
                         .strafeLeft(7)
                                 .build();
+        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
+                        .splineTo(new Vector2d(36,-48),Math.toRadians(90))
+                        .build();
+        Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
+                        .forward(36,SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                                .build();
+        Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
+                        .strafeRight(10)
+                                .build();
+        Trajectory traj6 = drive.trajectoryBuilder(traj5.end())
+                        .back(48,SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                                .build();
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end())
+                        .forward(48,SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                                .build();
+        Trajectory traj8 = drive.trajectoryBuilder(traj7.end())
+                        .strafeRight()
 
 
 
+
+        claw.setPosition(0);
         waitForStart();
 
         if(isStopRequested()) return;
@@ -61,11 +83,31 @@ public class roadRunnerSpecimen extends LinearOpMode {
         drive.followTrajectory(traj1);
         moveArmUp(-2000);
         drive.followTrajectory(traj2);
-        moveArmDown(-1400);
+        moveArmDown(-1200);
+        openClaw(0.5,-1000);
+        drive.followTrajectory(traj3);
+        moveArmDown(0);
+        drive.followTrajectory(traj4);
+        drive.followTrajectory(traj5);
+        drive.followTrajectory(traj6);
 
+    }
+
+    private void openClaw(double pos, int tarPos) {
+        claw.setPosition(pos);
+        linear.setTargetPosition(tarPos);
+        linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linear.setPower(0.5);
+
+
+        while (opModeIsActive() && linear.isBusy()){
+            telemetry.addData("ClawPos",pos);
+            telemetry.update();
+        }
 
 
     }
+
 
     private void moveArmUp(int tarPos) {
         linear.setTargetPosition(tarPos);
@@ -92,7 +134,6 @@ public class roadRunnerSpecimen extends LinearOpMode {
             telemetry.addData("Slide Position",linear.getCurrentPosition());
             telemetry.update();
         }
-        linear.setPower(0);
         claw.setPosition(0.5);
     }
 
