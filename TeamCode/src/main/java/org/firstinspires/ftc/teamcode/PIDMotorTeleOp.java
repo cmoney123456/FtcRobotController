@@ -147,6 +147,18 @@ public class PIDMotorTeleOp extends LinearOpMode {
             double motorPower = pidControl(targetPosition);
             double slidePower = slidepidControl(slidetarPos);
 
+            if (gamepad1.left_bumper){
+                targetPosition = -2100;
+                if (testMotor.getCurrentPosition() < -1600){
+                    slidetarPos = -2200;
+                    if (slideMotor.getCurrentPosition() < -2100){
+                        wristPos = 0.25;
+                    }
+                }
+            }
+            if (gamepad1.right_bumper){
+                intakePos = 1;
+            }
 
             motorPower = Math.max(-1, Math.min(1, motorPower));
             slidePower = Math.max(-1, Math.min(1,slidePower));
@@ -201,6 +213,7 @@ public class PIDMotorTeleOp extends LinearOpMode {
             // If deltaTime is 0, return 0 to prevent division by zero (for the first loop iteration)
             return 0;
         }
+
     }
     // PID control function
     private double slidepidControl(double slidetarPos) {
