@@ -94,9 +94,9 @@ public class testPIDAuto extends LinearOpMode {
         drive.followTrajectory(traj1);
         // Move the arm using PID before moving to the trajectory
         moveArmToPosition(-2100, 0, 0.75, 0);
-        moveArmToPosition(-2100, -2100, 0.75, 0);
-        openWrist(-2100,-2100,0.75,0);
-        openClaw(-2100,-2100,0.75,0);
+        moveArmToPosition(-2100, -2100, 0.25, 0);
+        moveArmToPosition(-2100, -2100, 0.25, 1);
+        intake.setPosition(1);
 
         // Optionally add more movements here
     }
@@ -105,6 +105,7 @@ public class testPIDAuto extends LinearOpMode {
         while (opModeIsActive()) {
             double liftPower = liftPID.calculate(targetLiftPos, lift.getCurrentPosition());
             double slidePower = slidePID.calculate(targetSlidePos, slide.getCurrentPosition());
+            double wristPosition = wrist.getPosition();
 
             liftPower = Math.max(-1, Math.min(1, liftPower));
             slidePower = Math.max(-1, Math.min(1, slidePower));
@@ -120,18 +121,12 @@ public class testPIDAuto extends LinearOpMode {
             telemetry.update();
 
             if (Math.abs(targetLiftPos - lift.getCurrentPosition()) <= POSITION_TOLERANCE &&
-                    Math.abs(targetSlidePos - slide.getCurrentPosition()) <= POSITION_TOLERANCE) {
+                    Math.abs(targetSlidePos - slide.getCurrentPosition()) <= POSITION_TOLERANCE
+                        && Math.abs(wristPos - wristPosition) <= POSITION_TOLERANCE){
                 break;
             }
         }
 
-        // Set final motor powers
-        if (targetLiftPos < -1600) {
-            lift.setPower(0.01);
-        } else {
-            lift.setPower(0);
-        }
-        slide.setPower(0);
     }
     private void openWrist(double targetLiftPos, double targetSlidePos, double wristPos, double intakePos) {
         while (opModeIsActive()) {
