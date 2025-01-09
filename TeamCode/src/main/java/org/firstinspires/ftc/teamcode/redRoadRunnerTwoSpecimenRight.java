@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,7 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class redRoadRunnerSpecimenRight extends LinearOpMode {
+public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
     DcMotor linear;
     Servo claw;
@@ -37,7 +36,7 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(12,-64,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(24,-64,Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -48,11 +47,13 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
                         .splineTo(new Vector2d(0,-38),Math.toRadians(0))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(7)
+                        .strafeLeft(7.5)
                                 .build();
-
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                        .splineTo(new Vector2d(36,-48),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+        Trajectory trajb = drive.trajectoryBuilder(traj2.end())
+                .strafeRight(4)
+                .build();
+        Trajectory traj3 = drive.trajectoryBuilder(trajb.end())
+                        .splineTo(new Vector2d(50,-48),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
@@ -91,6 +92,9 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
                         .back(48,SampleMecanumDrive.getVelocityConstraint(85, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .build();
+        Trajectory trajc = drive.trajectoryBuilder(traj3.end())
+                        .strafeLeft(11)
+                                .build();
 
 
 
@@ -107,9 +111,13 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
         drive.followTrajectory(traj2);
         moveArmDown(-1100);
         openClaw(0.5,-1000);
+        drive.followTrajectory(trajb);
         drive.followTrajectory(traj3);
+        moveArmUp(-61);
+        drive.followTrajectory(trajc);
 
-        drive.followTrajectory(traj4);
+
+        /*drive.followTrajectory(traj4);
         drive.followTrajectory(traj5);
         drive.followTrajectory(traj6);
         drive.followTrajectory(traj7);
