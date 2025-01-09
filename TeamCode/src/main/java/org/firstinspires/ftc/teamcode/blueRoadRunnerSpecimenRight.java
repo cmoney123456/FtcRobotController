@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,7 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class redRoadRunnerSpecimenRight extends LinearOpMode {
+public class blueRoadRunnerSpecimenRight extends LinearOpMode {
 
     DcMotor linear;
     Servo claw;
@@ -37,7 +36,7 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(12,-64,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-12,64,Math.toRadians(270));
 
         drive.setPoseEstimate(startPos);
 
@@ -45,14 +44,13 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
 
 
         Trajectory traj1 = drive.trajectoryBuilder(startPos)
-                        .splineTo(new Vector2d(0,-38),Math.toRadians(0))
+                        .splineTo(new Vector2d(0,38),Math.toRadians(180))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
                         .strafeLeft(7)
                                 .build();
-
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                        .splineTo(new Vector2d(36,-48),Math.toRadians(90))
+                        .splineTo(new Vector2d(-36,48),Math.toRadians(270))
                         .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
                         .forward(36,SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -104,10 +102,10 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
         drive.followTrajectory(traj1);
         moveArmUp(-2000);
         drive.followTrajectory(traj2);
-        moveArmDown(-1100);
+        moveArmDown(-1200);
         openClaw(0.5,-1000);
         drive.followTrajectory(traj3);
-
+        //moveArmDown(0);
         drive.followTrajectory(traj4);
         drive.followTrajectory(traj5);
         drive.followTrajectory(traj6);

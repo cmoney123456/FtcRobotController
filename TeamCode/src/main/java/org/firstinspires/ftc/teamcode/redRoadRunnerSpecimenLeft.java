@@ -47,7 +47,7 @@ public class redRoadRunnerSpecimenLeft extends LinearOpMode {
                         .splineTo(new Vector2d(0,-38),Math.toRadians(0))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(8)
+                        .strafeLeft(7)
                                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
                         .splineTo(new Vector2d(-36,-48),Math.toRadians(90))
