@@ -53,11 +53,11 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
                 .strafeRight(4)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(trajb.end())
-                        .splineTo(new Vector2d(50,-48),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .splineTo(new Vector2d(49,-49),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                        .forward(36,SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .forward(36,SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
@@ -93,7 +93,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .build();
         Trajectory trajc = drive.trajectoryBuilder(traj3.end())
-                        .strafeLeft(11)
+                        .strafeLeft(12)
                                 .build();
 
 
@@ -107,14 +107,15 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
 
         drive.followTrajectory(traj1);
-        moveArmUp(-2000);
+        moveArmUp(-2100);
         drive.followTrajectory(traj2);
         moveArmDown(-1100);
         openClaw(0.5,-1000);
         drive.followTrajectory(trajb);
         drive.followTrajectory(traj3);
-        moveArmUp(-61);
+        openClaw(0.5,-61);
         drive.followTrajectory(trajc);
+        openClaw(0,-61);
 
 
         /*drive.followTrajectory(traj4);

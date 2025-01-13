@@ -19,9 +19,11 @@ public class redRoadRunnerSpecimenRightTeleOp extends LinearOpMode {
     DcMotor linear;
     Servo claw;
 
+
     public void init(HardwareMap hwMap, boolean autoMode){
         linear = hwMap.get(DcMotor.class,"linearMotor");
         claw = hwMap.get(Servo.class,"claw");
+
     }
 
     //double wristPower = 0.75;
@@ -37,7 +39,7 @@ public class redRoadRunnerSpecimenRightTeleOp extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(48,-64,Math.toRadians(180));
+        Pose2d startPos = new Pose2d(49,-60,Math.toRadians(180));
 
         drive.setPoseEstimate(startPos);
 
@@ -48,15 +50,17 @@ public class redRoadRunnerSpecimenRightTeleOp extends LinearOpMode {
                         .splineTo(new Vector2d(0,-38),Math.toRadians(0))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(7)
+                        .strafeLeft(7.5)
                                 .build();
         Trajectory traja = drive.trajectoryBuilder(traj2.end())
                 .strafeRight(7)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traja.end())
-                        .splineTo(new Vector2d(48,-64),Math.toRadians((180)))
+                        .splineTo(new Vector2d(49,-58),Math.toRadians((180)))
                                 .build();
-
+        Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
+                        .strafeLeft(3)
+                                .build();
 
 
 
@@ -73,7 +77,7 @@ public class redRoadRunnerSpecimenRightTeleOp extends LinearOpMode {
                 claw.setPosition(0);
                 moveArmUp(-1000);
                 drive.followTrajectory(traj1);
-                moveArmUp(-2000);
+                moveArmUp(-2100);
                 drive.followTrajectory(traj2);
                 moveArmDown(-1100);
                 openClaw(0.5, -1000);
@@ -82,7 +86,9 @@ public class redRoadRunnerSpecimenRightTeleOp extends LinearOpMode {
             if (gamepad1.b){
                 drive.followTrajectory(traja);
                 drive.followTrajectory(traj3);
+                drive.followTrajectory(traj4);
                 moveArmDown(0);
+
             }
         }
     }

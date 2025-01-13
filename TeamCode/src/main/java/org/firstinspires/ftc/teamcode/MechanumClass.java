@@ -138,9 +138,9 @@ public class MechanumClass {
         // sliderLeft.setTargetPosition(300);
 
         frontLeft.setPower(power * pivot + (power * (-vertical - horizontal)));
-        frontRight.setPower(-power * pivot + (power * (-vertical + horizontal)));
-        backLeft.setPower(power * pivot + (power * (-vertical + horizontal)));
-        backRight.setPower(-power * pivot + (power * (-vertical - horizontal)));
+        frontRight.setPower(-power * -pivot + (power * (-vertical + horizontal)));
+        backLeft.setPower(power * pivot + (power * (vertical - horizontal)));
+        backRight.setPower(-power * -pivot + (power * (vertical + horizontal)));
         slide.setPower(slidePower);
         pivotMotor.setPower(pivotPower);
         intake.setPosition(intakePower);
