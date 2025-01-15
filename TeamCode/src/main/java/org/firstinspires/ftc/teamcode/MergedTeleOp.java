@@ -18,7 +18,7 @@ public class MergedTeleOp extends LinearOpMode {
     double power = 1;
     double intakePower;
     double wristPower = 0.75;
-    double clawPosition = 1;
+    double clawPosition = 0;
     double pivotPower = 0;
 
     // Declare OpMode members

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
+public class blueRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
     DcMotor linear;
     Servo claw;
@@ -36,7 +36,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(24,-64,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-24,64,Math.toRadians(270));
 
         drive.setPoseEstimate(startPos);
 
@@ -44,7 +44,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
 
         Trajectory traj1 = drive.trajectoryBuilder(startPos)
-                        .splineTo(new Vector2d(0,-38),Math.toRadians(0))
+                        .splineTo(new Vector2d(0,38),Math.toRadians(180))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
                         .strafeLeft(6)
@@ -53,7 +53,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
                 .strafeRight(4)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(trajb.end())
-                        .splineTo(new Vector2d(49,-49),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .splineTo(new Vector2d(-49,49),Math.toRadians(0),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
