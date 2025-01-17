@@ -47,7 +47,7 @@ public class blueRoadRunnerTwoSpecimenRight extends LinearOpMode {
                         .splineTo(new Vector2d(0,38),Math.toRadians(180))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(6)
+                        .strafeLeft(6.5)
                                 .build();
         Trajectory trajb = drive.trajectoryBuilder(traj2.end())
                 .strafeRight(4)
@@ -113,7 +113,7 @@ public class blueRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
 
         drive.followTrajectory(traj1);
-        moveArmUp(-2100);
+        moveArmUp(-2350);
         drive.followTrajectory(traj2);
         moveArmDown(-1100);
         openClaw(0.5,-1000);

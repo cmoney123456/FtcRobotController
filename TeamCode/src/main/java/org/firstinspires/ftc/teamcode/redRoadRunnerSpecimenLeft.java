@@ -36,7 +36,7 @@ public class redRoadRunnerSpecimenLeft extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(-36,-64,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-24,-64,Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -47,7 +47,7 @@ public class redRoadRunnerSpecimenLeft extends LinearOpMode {
                         .splineTo(new Vector2d(0,-38),Math.toRadians(0))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(7)
+                        .strafeLeft(6.75)
                                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
                         .splineTo(new Vector2d(-36,-48),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -107,7 +107,7 @@ public class redRoadRunnerSpecimenLeft extends LinearOpMode {
 
 
         drive.followTrajectory(traj1);
-        moveArmUp(-2000);
+        moveArmUp(-2350);
         drive.followTrajectory(traj2);
         moveArmDown(-1200);
         openClaw(0.5,-1000);
