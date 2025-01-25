@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "Red Right Two", group = "Comp")
-public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
+@Autonomous (name = "Blue Right Two Delay", group = "Comp Delay")
+public class blueRoadRunnerTwoSpecimenRightDelay extends LinearOpMode {
 
     DcMotor linear;
     Servo claw;
@@ -36,7 +36,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(24,-64,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-24,64,Math.toRadians(270));
 
         drive.setPoseEstimate(startPos);
 
@@ -44,16 +44,16 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
 
         Trajectory traj1 = drive.trajectoryBuilder(startPos)
-                        .splineTo(new Vector2d(0,-38),Math.toRadians(0))
+                        .splineTo(new Vector2d(0,38),Math.toRadians(180))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(6)
+                        .strafeLeft(6.5)
                                 .build();
         Trajectory trajb = drive.trajectoryBuilder(traj2.end())
                 .strafeRight(4)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(trajb.end())
-                        .splineTo(new Vector2d(49,-49),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .splineTo(new Vector2d(-49,49),Math.toRadians(0),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
@@ -111,9 +111,10 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
         if(isStopRequested()) return;
 
+        sleep(5000);
 
         drive.followTrajectory(traj1);
-        moveArmUp(-2100);
+        moveArmUp(-2350);
         drive.followTrajectory(traj2);
         moveArmDown(-1100);
         openClaw(0.5,-1000);

@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous
+@Autonomous(name = "Red Right", group = "Comp")
 public class redRoadRunnerSpecimenRight extends LinearOpMode {
 
     DcMotor linear;
@@ -45,10 +45,10 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
 
 
         Trajectory traj1 = drive.trajectoryBuilder(startPos)
-                        .splineTo(new Vector2d(0,-38),Math.toRadians(0))
+                        .splineTo(new Vector2d(6,-38),Math.toRadians(0))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(7)
+                        .strafeLeft(6)
                                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
@@ -103,7 +103,7 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
 
 
         drive.followTrajectory(traj1);
-        moveArmUp(-2000);
+        moveArmUp(-2100);
         drive.followTrajectory(traj2);
         moveArmDown(-1100);
         openClaw(0.5,-1000);

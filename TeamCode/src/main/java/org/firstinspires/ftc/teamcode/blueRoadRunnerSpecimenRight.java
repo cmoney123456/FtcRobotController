@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous
+@Autonomous(name = "Blue Right", group = "Comp" )
 public class blueRoadRunnerSpecimenRight extends LinearOpMode {
 
     DcMotor linear;

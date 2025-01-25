@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "Red Right Two", group = "Comp")
-public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
+@Autonomous(name = "Red Right Two Delay", group = "Comp Delay")
+public class redRoadRunnerTwoSpecimenRightDelay extends LinearOpMode {
 
     DcMotor linear;
     Servo claw;
@@ -111,7 +111,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
         if(isStopRequested()) return;
 
-
+        sleep(5000);
         drive.followTrajectory(traj1);
         moveArmUp(-2100);
         drive.followTrajectory(traj2);

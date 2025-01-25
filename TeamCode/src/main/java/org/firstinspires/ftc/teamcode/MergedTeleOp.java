@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(name="MergedTeleOp", group="Linear OpMode")
+@TeleOp(name="MergedTeleOp", group="Comp TeleOp")
 
 public class MergedTeleOp extends LinearOpMode {
 
@@ -103,10 +103,10 @@ public class MergedTeleOp extends LinearOpMode {
                 }
             }
 
-            if (gamepad1.dpad_down) {
+            if (gamepad1.left_bumper) {
                 power = 0.5;
             } else {
-                power = 1;
+                power = .75;
             }
 
             if (gamepad2.b) {
@@ -127,7 +127,16 @@ public class MergedTeleOp extends LinearOpMode {
                 wristPower = 0.25;
             }
 
-            if (currentPosition > Max_Position) {
+
+            if (currentPosition > -1000){
+                if (curSlide <-1200){
+                    wristPower = 0.75;
+                }
+
+            }
+
+
+/*            if (currentPosition > Max_Position) {
                 if (gamepad2.right_stick_y != 0) {
                     if (gamepad2.dpad_down) {
                         pivotPower = gamepad2.right_stick_y * 0.3;
@@ -143,7 +152,7 @@ public class MergedTeleOp extends LinearOpMode {
                 pivotPower = 0;
                 telemetry.addLine("Max position reached!");
                 telemetry.update();
-            }
+            }*/
 
 
             drive.teleOP(power, pivot, vertical, horizontal, pivotPower, slidePower, intakePower, wristPower, currentPosition, linearPower, clawPosition, linearPos);

@@ -128,11 +128,11 @@ public class coreyPracticeTeleOp4 extends LinearOpMode {
                 }
             }
 
-            if (gamepad1.dpad_down){
+            if (gamepad1.left_bumper){
                 power = .5;
             }
             else {
-                power = 1;
+                power = .75;
             }
 
 
