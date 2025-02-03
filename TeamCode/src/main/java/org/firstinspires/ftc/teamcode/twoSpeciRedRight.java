@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "Red Right Two", group = "Comp")
+@Autonomous(name = "Speci Two", group = "Comp")
 public class twoSpeciRedRight extends LinearOpMode {
 
     DcMotor linear;
