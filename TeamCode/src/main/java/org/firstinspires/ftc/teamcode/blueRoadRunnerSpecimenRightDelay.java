@@ -36,7 +36,7 @@ public class blueRoadRunnerSpecimenRightDelay extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(-12,64,Math.toRadians(270));
+        Pose2d startPos = new Pose2d(-24,64,Math.toRadians(270));
 
         drive.setPoseEstimate(startPos);
 

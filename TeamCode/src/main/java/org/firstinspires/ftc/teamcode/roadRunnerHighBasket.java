@@ -80,7 +80,7 @@ public class roadRunnerHighBasket extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPos = new Pose2d(-36,-64,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-24,-64,Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 

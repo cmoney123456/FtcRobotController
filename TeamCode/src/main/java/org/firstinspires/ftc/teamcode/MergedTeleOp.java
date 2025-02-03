@@ -77,7 +77,7 @@ public class MergedTeleOp extends LinearOpMode {
             double horizontal = -gamepad1.left_stick_y;
             double vertical = gamepad1.left_stick_x;
             double pivot = -gamepad1.right_stick_x;
-            double slidePower = gamepad2.left_stick_y;
+            double slidePower = gamepad2.left_stick_x;
             double linearPower = gamepad2.right_stick_x * 0.5;
 
             int currentPosition = drive.posistion();
@@ -129,7 +129,7 @@ public class MergedTeleOp extends LinearOpMode {
 
 
             if (currentPosition > -1000){
-                if (curSlide <-1200){
+                if (curSlide <-1750){
                     wristPower = 0.75;
                 }
 
