@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,7 +15,8 @@ public class PIDMotorTeleOp extends LinearOpMode {
     DcMotor testMotor;
     DcMotor slideMotor;
     Servo wrist;
-    Servo intake;
+    CRServo intakeLeft;
+    CRServo intakeRight;
 
     // PID parameters
     double integral = 0;
@@ -30,7 +32,7 @@ public class PIDMotorTeleOp extends LinearOpMode {
     double slideKd = 0.0006;
     double slideIntegral = 0;
     double wristPos = 0.75;
-    double intakePos =0;
+    double intakePos;
 
     // Tuning and timing parameters
     final double POSITION_TOLERANCE = 10; // Acceptable error (tolerance) for reaching the target
@@ -54,7 +56,8 @@ public class PIDMotorTeleOp extends LinearOpMode {
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // Reset the encoder to zero
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         wrist = hardwareMap.servo.get("wrist");
-        intake = hardwareMap.servo.get("intake");
+        intakeLeft = hardwareMap.crservo.get("intakeLeft");
+        intakeRight = hardwareMap.crservo.get("intakeRight");
 
 
         waitForStart();
@@ -140,34 +143,69 @@ public class PIDMotorTeleOp extends LinearOpMode {
             if (gamepad2.right_bumper){
                 intakePos = 0;
             }
-            if (gamepad2.left_bumper){
+            /*if (gamepad2.left_bumper){
                 wristPos = 0.25;
-            }
+            }*/
             // Call the PID control method to calculate motor power
             double motorPower = pidControl(targetPosition);
             double slidePower = slidepidControl(slidetarPos);
 
+
+            /*            if (gamepad2.left_bumper) {
+                wristPower = 0;
+            } else if (gamepad2.right_bumper) {
+                wristPower = 0.75;
+            }
+            else if (gamepad2.dpad_right) {
+                wristPower = 0.5;
+            }
+            else if (gamepad2.dpad_left){
+                wristPower =0.3;
+            }
+            if (gamepad2.a) {
+                intakePower = 1;
+            } else if (gamepad2.x) {
+                intakePower = -1;
+            }
+            else {
+                intakePower = 0;
+
+            }*/
+
             if (gamepad1.left_bumper){
                 targetPosition = -2100;
                 if (testMotor.getCurrentPosition() < -1600){
-                    slidetarPos = -2200;
-                    if (slideMotor.getCurrentPosition() < -2100){
-                        wristPos = 0.25;
+                    slidetarPos = -1950;
+                    if (slideMotor.getCurrentPosition() < -1900){
+                        wristPos = 0.3;
                     }
                 }
             }
             if (gamepad1.right_bumper){
-                intakePos = 1;
+                intakePos = -1;
             }
 
             motorPower = Math.max(-1, Math.min(1, motorPower));
             slidePower = Math.max(-1, Math.min(1,slidePower));
 
             // Set the motor power
-            testMotor.setPower(motorPower * 0.15);
-            slideMotor.setPower(slidePower * 0.1);
+            if (testMotor.getCurrentPosition()<-1600){
+                testMotor.setPower(motorPower * 0.15);
+            }
+            else {
+                testMotor.setPower(motorPower * 0.5);
+            }
+            if (slideMotor.getCurrentPosition()<-1500){
+                slideMotor.setPower(slidePower * 0.1);
+            }
+            else {
+                slideMotor.setPower(slidePower * 0.6);
+            }
+            //testMotor.setPower(motorPower * 0.15);
+            //slideMotor.setPower(slidePower * 0.1);
             wrist.setPosition(wristPos);
-            intake.setPosition(intakePos);
+            intakeLeft.setPower(-intakePos);
+            intakeRight.setPower(intakePos);
 
             // Optional: Display motor position and PID constants on the dashboard for debugging
             telemetry.addData("Motor Position", testMotor.getCurrentPosition());

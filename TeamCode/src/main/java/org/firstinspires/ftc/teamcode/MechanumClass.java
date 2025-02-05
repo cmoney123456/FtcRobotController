@@ -15,7 +15,8 @@ public class MechanumClass {
     DcMotor backRight;
     DcMotor slide;
     DcMotor pivotMotor;
-    Servo intake;
+    CRServo intakeLeft;
+    CRServo intakeRight;
     Servo wrist;
     DcMotor linear;
     Servo claw;
@@ -53,7 +54,8 @@ public class MechanumClass {
 
         slide = hwMap.get(DcMotor.class, "armMotor");
         pivotMotor = hwMap.get(DcMotor.class, "liftMotor");
-        intake = hwMap.get(Servo.class, "intake");
+        intakeLeft = hwMap.get(CRServo.class, "intakeLeft");
+        intakeRight = hwMap.get(CRServo.class, "intakeRight");
         wrist = hwMap.get(Servo.class, "wrist");
         linear = hwMap.get(DcMotor.class,"linearMotor");
         claw = hwMap.get(Servo.class,"claw");
@@ -143,7 +145,8 @@ public class MechanumClass {
         backRight.setPower(-power * -pivot + (power * (vertical + horizontal)));
         slide.setPower(slidePower);
         pivotMotor.setPower(pivotPower);
-        intake.setPosition(intakePower);
+        intakeLeft.setPower(intakePower);
+        intakeRight.setPower(-intakePower);
         wrist.setPosition(wristPower);
         linear.setPower(linearPower);
         claw.setPosition(clawPosition);

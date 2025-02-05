@@ -17,7 +17,7 @@ public class MergedTeleOp extends LinearOpMode {
 
     double power = 1;
     double intakePower;
-    double wristPower = 0.75;
+    double wristPower;
     double clawPosition = 0;
     double pivotPower = 0;
 
@@ -71,7 +71,7 @@ public class MergedTeleOp extends LinearOpMode {
         telemetry.update();
         waitForStart();
         runtime.reset();
-
+        mecanumDrive.setPoseEstimate(startPos);
         while (opModeIsActive()) {
             // Driver-controlled code
             double horizontal = -gamepad1.left_stick_y;
@@ -119,12 +119,20 @@ public class MergedTeleOp extends LinearOpMode {
             } else if (gamepad2.right_bumper) {
                 wristPower = 0.75;
             }
+            else if (gamepad2.dpad_right) {
+                wristPower = 0.5;
+            }
+            else if (gamepad2.dpad_left){
+                wristPower =0.3;
+            }
             if (gamepad2.a) {
                 intakePower = 1;
             } else if (gamepad2.x) {
+                intakePower = -1;
+            }
+            else {
                 intakePower = 0;
-            } else if (gamepad2.dpad_right) {
-                wristPower = 0.25;
+
             }
 
 
