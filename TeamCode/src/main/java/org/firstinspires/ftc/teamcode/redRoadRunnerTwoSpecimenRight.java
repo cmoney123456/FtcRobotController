@@ -92,7 +92,15 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
                 .strafeRight(3)
                 .build();
         Trajectory traj12 = drive.trajectoryBuilder(traj11.end())
-                .splineTo(new Vector2d(4,-38),Math.toRadians(0),SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .splineTo(new Vector2d(4,-38),Math.toRadians(0),SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
+        Trajectory traj13 = drive.trajectoryBuilder(traj12.end())
+                .strafeLeft(3.75,SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .build();
+        Trajectory traj14 = drive.trajectoryBuilder(traj13.end())
+                .strafeRight(2,SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
        /* Trajectory trajend = drive.trajectoryBuilder(traj.end())
@@ -115,6 +123,11 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
             }
         });
         Thread moveSlideThread2 = new Thread(new Runnable() {
+            public void run() {
+                moveArmUp(-2350);
+            }
+        });
+        Thread moveSlideThread3 = new Thread(new Runnable() {
             public void run() {
                 moveArmUp(-2350);
             }
@@ -170,6 +183,16 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        moveSlideThread3.start();
+        drive.followTrajectory(traj13);
+        //drive.followTrajectory(traj14);
+        try {
+            moveSlideThread3.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        moveArmDown(-1200);
+        openClaw(0.5,-1000);
 
 
 
