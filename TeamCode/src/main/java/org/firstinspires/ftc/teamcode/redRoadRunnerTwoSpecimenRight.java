@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "Red Right Two", group = "Comp")
+@Autonomous(name = "Red Right Two", group = "A")
 public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
     DcMotor linear;
@@ -43,64 +43,62 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
 
 
+
         Trajectory traj1 = drive.trajectoryBuilder(startPos)
-                        .splineTo(new Vector2d(0,-38),Math.toRadians(0))
+                        .splineTo(new Vector2d(8,-38),Math.toRadians(0),SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                        .strafeLeft(6)
+                        .strafeLeft(6,SampleMecanumDrive.getVelocityConstraint(80, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .build();
         Trajectory trajb = drive.trajectoryBuilder(traj2.end())
-                .strafeRight(4)
+                .strafeRight(4,SampleMecanumDrive.getVelocityConstraint(80, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(trajb.end())
-                        .splineTo(new Vector2d(49,-49),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .splineTo(new Vector2d(32,-35),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                        .forward(36,SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .strafeRight(23,SampleMecanumDrive.getVelocityConstraint(80, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
-                        .strafeRight(10,SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .back(17,SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
         Trajectory traj6 = drive.trajectoryBuilder(traj5.end())
-                        .back(48,SampleMecanumDrive.getVelocityConstraint(85, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .strafeLeft(42,SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
         Trajectory traj7 = drive.trajectoryBuilder(traj6.end())
-                        .forward(48,SampleMecanumDrive.getVelocityConstraint(85, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .strafeRight(42,SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
         Trajectory traj8 = drive.trajectoryBuilder(traj7.end())
-                        .strafeRight(10,SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .back(10,SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
         Trajectory traj9 = drive.trajectoryBuilder(traj8.end())
-                        .back(48,SampleMecanumDrive.getVelocityConstraint(85, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .strafeLeft(49,SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
         Trajectory traj10 = drive.trajectoryBuilder(traj9.end())
-                        .forward(48,SampleMecanumDrive.getVelocityConstraint(85, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .strafeRight(.5,SampleMecanumDrive.getVelocityConstraint(80, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
         Trajectory traj11 = drive.trajectoryBuilder(traj10.end())
-                        .strafeRight(10,SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
+                .strafeRight(3)
+                .build();
         Trajectory traj12 = drive.trajectoryBuilder(traj11.end())
-                        .back(48,SampleMecanumDrive.getVelocityConstraint(85, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .splineTo(new Vector2d(4,-38),Math.toRadians(0),SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
+       /* Trajectory trajend = drive.trajectoryBuilder(traj.end())
+                        .splineTo(new Vector2d(49,-49),Math.toRadians(180),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                                .build();
-        Trajectory trajc = drive.trajectoryBuilder(traj3.end())
-                        .strafeLeft(13)
-                                .build();
-        Trajectory trajd = drive.trajectoryBuilder(trajc.end())
-                        .splineTo(new Vector2d(0,-38),Math.toRadians(0))
-                                .build();
-        Trajectory traje = drive.trajectoryBuilder(trajd.end())
-                        .strafeLeft(7)
-                                .build();
+                        .build();*/
 
 
 
@@ -111,30 +109,73 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
 
         if(isStopRequested()) return;
 
+        Thread moveSlideThread = new Thread(new Runnable() {
+            public void run() {
+                moveArmUp(-2350);
+            }
+        });
+        Thread moveSlideThread2 = new Thread(new Runnable() {
+            public void run() {
+                moveArmUp(-2350);
+            }
+        });
+        Thread moveSlideDown = new Thread(new Runnable() {
+            public void run() {
+                moveArmDown(0);
+            }
+        });
+        Thread closeClaw = new Thread(new Runnable() {
 
+            public void run() {
+               openClaw(0,-2350);
+            }
+        });
+
+        moveSlideThread.start();
         drive.followTrajectory(traj1);
-        moveArmUp(-2100);
+        try {
+            moveSlideThread.join(); // Wait for the slide movement to complete
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        moveSlideThread2.start();
         drive.followTrajectory(traj2);
-        moveArmDown(-1100);
+        try{
+            moveSlideThread2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        moveArmDown(-1200);
         openClaw(0.5,-1000);
         drive.followTrajectory(trajb);
         drive.followTrajectory(traj3);
-        openClaw(0.5,-50);
-        drive.followTrajectory(trajc);
-        openClaw(0,0);
-        //moveArmUp(-1000);
-
-
-
-        /*drive.followTrajectory(traj4);
+        //drive.followTrajectory(traj4);
         drive.followTrajectory(traj5);
+        moveSlideDown.start();
         drive.followTrajectory(traj6);
         drive.followTrajectory(traj7);
+        try {
+            moveSlideDown.join(); // Wait for the slide movement to complete
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         drive.followTrajectory(traj8);
         drive.followTrajectory(traj9);
-       /* drive.followTrajectory(traj10);
+        drive.followTrajectory(traj10);
+        closeClaw.start();
         drive.followTrajectory(traj11);
-        drive.followTrajectory(traj12);*/
+        drive.followTrajectory(traj12);
+        try {
+            closeClaw.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+
 
 
     }
@@ -143,7 +184,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
         claw.setPosition(pos);
         linear.setTargetPosition(tarPos);
         linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linear.setPower(0.5);
+        linear.setPower(0.75);
 
 
         while (opModeIsActive() && linear.isBusy()){
@@ -158,7 +199,7 @@ public class redRoadRunnerTwoSpecimenRight extends LinearOpMode {
     private void moveArmUp(int tarPos) {
         linear.setTargetPosition(tarPos);
         linear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linear.setPower(-0.5);
+        linear.setPower(-0.75);
         claw.setPosition(0);
 
 

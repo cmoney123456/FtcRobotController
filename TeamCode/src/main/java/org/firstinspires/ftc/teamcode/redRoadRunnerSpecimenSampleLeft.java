@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "Red Left Speci and Sample", group = "Comp")
+@Autonomous(name = "Red Left Speci and Sample", group = "A")
 public class redRoadRunnerSpecimenSampleLeft extends LinearOpMode {
     DcMotor testMotor;
     DcMotor slideMotor;
@@ -90,17 +90,23 @@ public class redRoadRunnerSpecimenSampleLeft extends LinearOpMode {
 
 
         Trajectory traj1 = drive.trajectoryBuilder(startPos)
-                .splineTo(new Vector2d(-8,-38),Math.toRadians(0))
+                .splineTo(new Vector2d(-8,-38),Math.toRadians(0),SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                .strafeLeft(6.5)
+                .strafeLeft(6.5,SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .splineTo(new Vector2d(-50,-48),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .splineTo(new Vector2d(-50,-48),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                        .forward(11,SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .forward(12,SampleMecanumDrive.getVelocityConstraint(80, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                                .build();
+        Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
+                        .splineTo(new Vector2d(-51.5,-51.5),Math.toRadians(225),SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .build();
 
@@ -112,31 +118,94 @@ public class redRoadRunnerSpecimenSampleLeft extends LinearOpMode {
 
         if(isStopRequested()) return;
 
+        Thread moveSlideThread = new Thread(new Runnable() {
+            public void run() {
+                moveArmUp(-2350);
+            }
+        });
 
 
 
-            drive.followTrajectory(traj1);
+        moveSlideThread.start(); // Start the thread for moving the slide
+        drive.followTrajectory(traj1);
+
+        try {
+            moveSlideThread.join(); // Wait for the slide movement to complete
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         moveArmUp(-2350);
         drive.followTrajectory(traj2);
         moveArmDown(-1200);
         openClaw(0.5,-1000);
-            drive.followTrajectory(traj3);
-            while(opModeIsActive()) {
-                raiseArm(-500, 0, 0);
-                if (testMotor.getCurrentPosition() < - 500){
-                    //raiseArm(-500,0,0);
-                    break;
-                }
+        drive.followTrajectory(traj3);
+        while(opModeIsActive()) {
+            raiseArm(-550, 0, 0);
+            if (testMotor.getCurrentPosition() < - 525){
+                //raiseArm(-500,0,0);
+                break;
             }
-            while (opModeIsActive()){
-                extendSlide(-325);
-                raiseArm(0,0,0.5);
-                if (testMotor.getCurrentPosition() > -25){
-                    raiseArm(0,0,0.5);
-                    break;
-                }
+        }
+        while (opModeIsActive()){
+            raiseArm(0,0,0.85);
+            extendSlide(-325);
+            if (testMotor.getCurrentPosition() > -150){
+                raiseArm(0,0,0.85);
+                break;
             }
+        }
         drive.followTrajectory(traj4);
+        while (opModeIsActive()){
+            raiseArm(0,0,0);
+            if (testMotor.getCurrentPosition() > -100){
+                raiseArm(0,0,0);
+                break;
+            }
+        }
+        drive.followTrajectory(traj5);
+        while (opModeIsActive()){
+            raiseArm(-1950,0,0);
+            if (testMotor.getCurrentPosition() < -1850) {
+                raiseArm(-1950,0.25,0);
+                break;
+            }
+        }
+        while (opModeIsActive()){
+            extendSlide(-2100);
+            if (slideMotor.getCurrentPosition() < -2050){
+                extendSlide(-2100);
+                raiseArm(-1950,0.25,-0.5);
+                break;
+            }
+
+        }
+        while (opModeIsActive()){
+            extendSlide(-2100);
+            raiseArm(-1950,0.25,-0.5);
+            if (testMotor.getCurrentPosition() < -1900){
+                break;
+            }
+        }
+        while (opModeIsActive()){
+            raiseArm(-2000,0.25,0);
+            extendSlide(0);
+            if (slideMotor.getCurrentPosition() > -15){
+                break;
+            }
+        }
+        while (opModeIsActive()){
+            raiseArm(0,0,0);
+            if (testMotor.getCurrentPosition() > 15){
+                break;
+            }
+        }
+        /*while (opModeIsActive()){
+            raiseArm(-2100,0.25,0);
+            if (wrist.getPosition() == 0.25){
+                raiseArm(-2100,0.25,-0.5);
+                break;
+            }
+        }*/
 
 
     }
@@ -162,9 +231,9 @@ public class redRoadRunnerSpecimenSampleLeft extends LinearOpMode {
 
         // Set the motor power
         if (testMotor.getCurrentPosition() < -1600) {
-            testMotor.setPower(motorPower * 0.15);
+            testMotor.setPower(motorPower * 0.35);
         } else {
-            testMotor.setPower(motorPower * 0.4);
+            testMotor.setPower(motorPower * 0.75);
         }
         if (slideMotor.getCurrentPosition() < -1500) {
            // slideMotor.setPower(slidePower * 0.1);
@@ -231,10 +300,10 @@ public class redRoadRunnerSpecimenSampleLeft extends LinearOpMode {
     private void extendSlide(int slidetarPos){
         slideMotor.setTargetPosition(slidetarPos);
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slideMotor.setPower(0.5);
+        slideMotor.setPower(0.75);
         while (opModeIsActive() && slideMotor.isBusy()){
-            telemetry.addData("Slide Position",slideMotor.getCurrentPosition());
-            telemetry.update();
+            //telemetry.addData("Slide Position",slideMotor.getCurrentPosition());
+            //telemetry.update();
         }
         slideMotor.setPower(0);
     }

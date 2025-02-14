@@ -17,7 +17,7 @@ public class MergedTeleOp extends LinearOpMode {
 
     double power = 1;
     double intakePower;
-    double wristPower;
+    double wristPower = 1;
     double clawPosition = 0;
     double pivotPower = 0;
 
@@ -117,13 +117,13 @@ public class MergedTeleOp extends LinearOpMode {
             if (gamepad2.left_bumper) {
                 wristPower = 0;
             } else if (gamepad2.right_bumper) {
-                wristPower = 0.75;
+                wristPower = 1;
             }
             else if (gamepad2.dpad_right) {
-                wristPower = 0.5;
+                wristPower = 0.25;
             }
             else if (gamepad2.dpad_left){
-                wristPower =0.3;
+                wristPower =0.15;
             }
             if (gamepad2.a) {
                 intakePower = 1;
@@ -141,6 +141,12 @@ public class MergedTeleOp extends LinearOpMode {
                     wristPower = 0.75;
                 }
 
+            }
+            if (currentPosition < -2450){
+                if (curSlide < -50){
+                    wristPower = 1;
+                    slidePower = 0.5;
+                }
             }
 
 
