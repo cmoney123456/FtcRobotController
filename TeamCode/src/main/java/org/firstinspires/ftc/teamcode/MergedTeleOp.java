@@ -95,9 +95,9 @@ public class MergedTeleOp extends LinearOpMode {
                 sleep(15000);
             } else {
                 if (gamepad2.dpad_down) {
-                    pivotPower = gamepad2.right_stick_y * 0.3;
-                } else if (gamepad2.dpad_up) {
                     pivotPower = gamepad2.right_stick_y * 0.5;
+                } else if (gamepad2.dpad_up) {
+                    pivotPower = gamepad2.right_stick_y * 0.3;
                 } else {
                     pivotPower = gamepad2.right_stick_y * 0.05;
                 }
@@ -136,9 +136,10 @@ public class MergedTeleOp extends LinearOpMode {
             }
 
 
-            if (currentPosition > -1000){
-                if (curSlide <-1750){
-                    wristPower = 0.75;
+            if (currentPosition > -1700){
+                if (curSlide <-1600){
+                    slidePower = 0.1;
+                    wristPower = 1;
                 }
 
             }

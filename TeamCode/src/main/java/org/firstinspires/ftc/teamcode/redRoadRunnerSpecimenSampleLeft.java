@@ -164,9 +164,9 @@ public class redRoadRunnerSpecimenSampleLeft extends LinearOpMode {
         }
         drive.followTrajectory(traj5);
         while (opModeIsActive()){
-            raiseArm(-1950,0,0);
-            if (testMotor.getCurrentPosition() < -1850) {
-                raiseArm(-1950,0.25,0);
+            raiseArm(-2000,0,0);
+            if (testMotor.getCurrentPosition() < -1950) {
+                raiseArm(-2000,0.25,0);
                 break;
             }
         }
@@ -174,20 +174,20 @@ public class redRoadRunnerSpecimenSampleLeft extends LinearOpMode {
             extendSlide(-2100);
             if (slideMotor.getCurrentPosition() < -2050){
                 extendSlide(-2100);
-                raiseArm(-1950,0.25,-0.5);
+                raiseArm(-2000,0.25,-0.5);
                 break;
             }
 
         }
         while (opModeIsActive()){
             extendSlide(-2100);
-            raiseArm(-1950,0.25,-0.5);
+            raiseArm(-2000,0.25,-0.5);
             if (testMotor.getCurrentPosition() < -1900){
                 break;
             }
         }
         while (opModeIsActive()){
-            raiseArm(-2000,0.25,0);
+            raiseArm(-2100,0.25,0);
             extendSlide(0);
             if (slideMotor.getCurrentPosition() > -15){
                 break;
