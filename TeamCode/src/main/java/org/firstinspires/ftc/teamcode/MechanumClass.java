@@ -52,7 +52,7 @@ public class MechanumClass {
         backLeft = hwMap.get(DcMotor.class, "leftRearDrive");
         backRight = hwMap.get(DcMotor.class, "rightRearDrive");
 
-        slide = hwMap.get(DcMotor.class, "armMotor");
+        slide = hwMap.get(DcMotor.class, "beef");
         pivotMotor = hwMap.get(DcMotor.class, "liftMotor");
         intakeLeft = hwMap.get(CRServo.class, "intakeLeft");
         intakeRight = hwMap.get(CRServo.class, "intakeRight");
@@ -139,10 +139,10 @@ public class MechanumClass {
         //  sliderRight.setTargetPosition(300);
         // sliderLeft.setTargetPosition(300);
 
-        frontLeft.setPower(power * pivot + (power * (-vertical - horizontal)));
-        frontRight.setPower(-power * -pivot + (power * (-vertical + horizontal)));
-        backLeft.setPower(power * pivot + (power * (vertical - horizontal)));
-        backRight.setPower(-power * -pivot + (power * (vertical + horizontal)));
+        frontLeft.setPower(power * -pivot + (power * (-vertical + horizontal)));
+        frontRight.setPower(-power * -pivot + (power * (vertical + horizontal)));
+        backLeft.setPower(power * -pivot + (power * (vertical + horizontal)));
+        backRight.setPower(-power * -pivot + (power * (-vertical + horizontal)));
         slide.setPower(slidePower);
         pivotMotor.setPower(pivotPower);
         intakeLeft.setPower(intakePower);
@@ -191,7 +191,8 @@ public class MechanumClass {
     }
 
 
-    public void drive(double angle, double power, long delay, int position, boolean run) throws InterruptedException {
+    public void drive(double angle, double power, long delay, int position, boolean run)
+            throws InterruptedException {
         if (run) {
             frontRight.setDirection(DcMotor.Direction.REVERSE);
             frontLeft.setDirection(DcMotor.Direction.FORWARD);

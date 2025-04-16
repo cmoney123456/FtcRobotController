@@ -52,7 +52,8 @@ public class redRoadRunnerSpecimenRight extends LinearOpMode {
                                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                        .splineTo(new Vector2d(36,-48),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .splineTo(new Vector2d(36,-48),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(35,
+                                        DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
